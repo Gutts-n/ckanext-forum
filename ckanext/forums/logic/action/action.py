@@ -5,17 +5,14 @@ import ckan.logic as logic
 import ckan.plugins as p
 import ckan.model as model
 from ckan.lib import mailer
-from ckan.lib.base import render_jinja2
+from ckan.lib.render import render_jinja2
 from ckan.logic import validate
 import ckan.lib.helpers as h
 import ckanext.forums.model as issuemodel
 from ckanext.forums.logic import schema
 from ckanext.forums.exception import ReportAlreadyExists
 from ckanext.forums.lib.helpers import get_issue_subject, get_site_title
-try:
-    import ckan.authz as authz
-except ImportError:
-    import ckan.new_authz as authz
+import ckan.authz as authz
 
 from ckan.plugins.toolkit import config
 from sqlalchemy.exc import IntegrityError

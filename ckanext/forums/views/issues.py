@@ -6,7 +6,6 @@ from click.core import Context
 from sqlalchemy import func
 from flask import Blueprint
 
-from ckan.lib.base import render
 import ckan.lib.helpers as h
 from ckan.lib import mailer
 import ckan.model as model
@@ -114,7 +113,7 @@ def new():
                 issue_number=issue_dict['number'])
 
     g.data_dict = data_dict
-    return render("forums/add.html")
+    return toolkit.render("forums/add.html")
 
 # RENAMED it conflicted with views.show.show
 def show_issue(issue_number):
@@ -243,7 +242,7 @@ def dataset():
         extra_vars['pkg_dict'] = {}
     except toolkit.ValidationError as e:
         _dataset_handle_error(dataset_id, e)
-    return render("forums/dataset.html", extra_vars=extra_vars)
+    return toolkit.render("forums/dataset.html", extra_vars=extra_vars)
 
 def delete(issue_number):
     dataset_id = "forum"
@@ -267,7 +266,7 @@ def delete(issue_number):
         )
         return p.toolkit.redirect_to('forums.dataset')
     else:
-        return render('forums/confirm_delete.html',
+        return toolkit.render('forums/confirm_delete.html',
                         extra_vars={
                             'issue_number': issue_number
                         })
@@ -480,14 +479,14 @@ def issues_for_organization(org_id):
         g.results[issue.package].append(issue)
     g.package_set = sorted(set(g.results.keys()), key=lambda x: x.title)
     print(g.package_set)
-    return render("issues/organization_forums.html", extra_vars=template_params)
+    return toolkit.render("issues/organization_forums.html", extra_vars=template_params)
 
 def all_issues_page():
     """
     Display a page containing a list of all issues items
     """
     template_params = all_issues(request.args)
-    return render("issues/all_forums.html", extra_vars=template_params)
+    return toolkit.render("issues/all_forums.html", extra_vars=template_params)
 
 
 def _dataset_handle_error(dataset_id, exc):
